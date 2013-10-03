@@ -6,6 +6,9 @@ What is Dependencies Security Checker for composer ?
 
 It is a composer script that use sensio security checker API to check known vulnerabilities in your dependencies.
 
+More information about Sensio Labs Security Advisories Checker on https://security.sensiolabs.org/
+
+
 Installation
 ------------
 
