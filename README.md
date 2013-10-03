@@ -28,11 +28,11 @@ Configuration
 If you do not want to have errors if vulnerabilities are found just add those lines in you composer.json
 
 ```json
-    "extra" : {
-        "rolebi-dependencies-security-checker" : {
-            "error-on-vulnerabilities" : false
-        }
+"extra" : {
+    "rolebi-dependencies-security-checker" : {
+        "error-on-vulnerabilities" : false
     }
+}
 ```
 
 If you want to ignore vulnerabilities for certain package just add
