@@ -12,14 +12,14 @@ Installation
 Add those lines in your composer.json
 
 ```json
-    "scripts" : {
-        "post-update-cmd" : [
-            "Smile\\ComposerSecurityCheckerBundle\\ScriptHandler::checkForSecurityIssues"
-        ],
-        "post-install-cmd" : [
-            "Smile\\ComposerSecurityCheckerBundle\\ScriptHandler::checkForSecurityIssues"
-        ],
-    }
+"scripts" : {
+    "post-update-cmd" : [
+        "Smile\\ComposerSecurityCheckerBundle\\ScriptHandler::checkForSecurityIssues"
+    ],
+    "post-install-cmd" : [
+        "Smile\\ComposerSecurityCheckerBundle\\ScriptHandler::checkForSecurityIssues"
+    ],
+}
 ```
         
 Configuration
@@ -38,9 +38,9 @@ If you do not want to have errors if vulnerabilities are found just add those li
 If you want to ignore vulnerabilities for certain package just add
 
 ```json
-    "extra" : {
-        "rolebi-dependencies-security-checker" : {
-            "ignored-packages" : [ "your/package_name" ]
-        }
+"extra" : {
+    "rolebi-dependencies-security-checker" : {
+        "ignored-packages" : [ "your/package_name" ]
     }
+}
 ```
