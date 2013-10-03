@@ -19,7 +19,7 @@ use SensioLabs\Security\SecurityChecker;
 /**
  * @author Ronan Le Bris <ronan.le-bris@smile.fr>
  */
-class AbstractGenerateDatabaseCommand
+class ScriptHandler
 {
     /**
      * @param Event $event
