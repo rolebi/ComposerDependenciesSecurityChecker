@@ -15,7 +15,7 @@ class UnsafeDependenciesException extends \RuntimeException
     protected $vulnerabilities;
 
     /**
-     * @param $dependencies As json_decoded array returned by {@link SecurityChecker::check()}
+     * @param \stdClass $dependencies As json_decoded array returned by {@link SecurityChecker::check()}
      *
      * @return UnsafeDependenciesException
      */
@@ -27,7 +27,7 @@ class UnsafeDependenciesException extends \RuntimeException
     }
 
     /**
-     * @return As json_decoded array returned by {@link SecurityChecker::check()}
+     * @return \stdClass As json_decoded array returned by {@link SecurityChecker::check()}
      *
      * @link
      */
