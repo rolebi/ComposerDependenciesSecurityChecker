@@ -32,7 +32,7 @@ Add those lines in your composer.json
 Configuration
 -------------
 
-If you do not want to have errors if vulnerabilities are found just add those lines in you composer.json
+If you don't want to trigger an error when vulnerabilities are found, just add those lines in you composer.json
 
 ```json
 "extra" : {
@@ -42,7 +42,7 @@ If you do not want to have errors if vulnerabilities are found just add those li
 }
 ```
 
-If you want to ignore vulnerabilities for certain package just add
+If you want to ignore vulnerabilities for certain package,  just add those lines in you composer.json
 
 ```json
 "extra" : {
