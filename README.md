@@ -14,10 +14,10 @@ Add those lines in your composer.json
 ```json
 "scripts" : {
     "post-update-cmd" : [
-        "Smile\\ComposerSecurityCheckerBundle\\ScriptHandler::checkForSecurityIssues"
+        "Rolebi\\ComposerSecurityCheckerBundle\\ScriptHandler::checkForSecurityIssues"
     ],
     "post-install-cmd" : [
-        "Smile\\ComposerSecurityCheckerBundle\\ScriptHandler::checkForSecurityIssues"
+        "Rolebi\\ComposerSecurityCheckerBundle\\ScriptHandler::checkForSecurityIssues"
     ],
 }
 ```
