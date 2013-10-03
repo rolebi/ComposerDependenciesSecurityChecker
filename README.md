@@ -1,7 +1,7 @@
 README
 ------
 
-What is ComposerDependenciesSecurityChecker ?
+What is Dependencies Security Checker for composer ?
 ---------------------------------------
 
 It is a composer script that use sensio security checker API to check known vulnerabilities in your dependencies.
@@ -10,6 +10,13 @@ Installation
 ------------
 
 Add those lines in your composer.json
+
+```json
+"require" : {
+    "rolebi/composer-dependencies-security-checker": "dev-master"
+}
+```
+
 
 ```json
 "scripts" : {
