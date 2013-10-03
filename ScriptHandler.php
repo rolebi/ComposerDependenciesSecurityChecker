@@ -6,7 +6,7 @@ use Composer\IO\IOInterface;
 use Composer\Script\Event;
 use Composer\Factory;
 use SensioLabs\Security\SecurityChecker;
-use Rolebi\ComposerDependenciesSecurityChecker\UnsafeDependenciesException;
+use Rolebi\UnsafeDependenciesException;
 
 /**
  * @author Ronan Le Bris <ronan.le-bris@smile.fr>
