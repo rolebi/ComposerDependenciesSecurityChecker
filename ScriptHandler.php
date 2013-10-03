@@ -35,7 +35,7 @@ class ScriptHandler
 
         $io->write("\n".'<info>Checking your dependencies for known vulnerabilities using your composer.lock</info>');
         $io->write('<comment>This checker can only detect vulnerabilities that are referenced in the SensioLabs '
-            .'security advisories database.</comment>');
+            .'security advisories database.</comment>'."\n");
 
         $checker         = new SecurityChecker();
         $vulnerabilities = json_decode($checker->check(Factory::getComposerFile(), 'json'));
