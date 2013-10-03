@@ -37,8 +37,6 @@ class UnsafeDependenciesException extends \RuntimeException
 
     /**
      * @return \stdClass As json_decoded array returned by {@link SecurityChecker::check()}
-     *
-     * @link
      */
     public function getVulnerabilities()
     {
