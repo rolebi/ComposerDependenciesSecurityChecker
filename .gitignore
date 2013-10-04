@@ -1,6 +1,9 @@
 /composer.lock
 /phpunit.xml
-/composer.lock
 /composer.phar
-build
+/build
+/vendor
+/.settings
+/.buildpath
+/.project
 
