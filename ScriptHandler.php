@@ -22,6 +22,7 @@ use SensioLabs\Security\SecurityChecker;
 class ScriptHandler
 {
     /**
+<<<<<<< HEAD
      * @return SecurityChecker
      */
     protected static function getSecurityChecker()
@@ -35,6 +36,47 @@ class ScriptHandler
     protected static function getComposerFile()
     {
         return Factory::getComposerFile();
+=======
+     * @param Event $event
+     */
+    public static function checkForSecurityIssues(Event $event)
+    {
+        $extra  = $event->getComposer()->getPackage()->getExtra();
+        $config = static::processConfig(
+            isset($extra['rolebi-dependencies-security-checker']) ? $extra['rolebi-dependencies-security-checker'] : array()
+        );
+
+        $io = $event->getIO();
+
+        $io->write("\n".'<info>Checking your dependencies for known vulnerabilities using your composer.lock</info>');
+        $io->write('<comment>This checker can only detect vulnerabilities that are referenced in the SensioLabs '
+            .'security advisories database.</comment>'."\n");
+
+        $checker         = new SecurityChecker();
+        $vulnerabilities = json_decode($checker->check(Factory::getComposerFile(), 'json'));
+
+        if ($config['ignored-packages']) {
+            $aVulnerabilities = array();
+            foreach ($vulnerabilities as $package => $infos) {
+                if (!isset($config['ignored-packages'][$package])) {
+                    $aVulnerabilities[$package] = $infos;
+                }
+            }
+            $vulnerabilities = $aVulnerabilities;
+        }
+
+        $errorCount = count($vulnerabilities);
+        if ($errorCount) {
+            $io->write("\n".'  <error>'.$errorCount.' vulnerabilit'.($errorCount > 1 ? 'ies' : 'y').' found!</error>');
+
+            static::dumpVulnerabilities($io, $aVulnerabilities);
+
+            if ($config['error-on-vulnerabilities']) {
+                $exception = new UnsafeDependenciesException('Your dependencies contains known vulnerabilities.');
+                throw $exception->setVulnerabilities($vulnerabilities);
+            }
+        }
+>>>>>>> c2bfa004815fa5f294bdbbcfe40314aa013d7180
     }
 
     /**
@@ -60,6 +102,7 @@ class ScriptHandler
     }
 
     /**
+<<<<<<< HEAD
      * @return string[]
      */
     protected static function getSupportedOptions()
@@ -68,10 +111,13 @@ class ScriptHandler
     }
 
     /**
+=======
+>>>>>>> c2bfa004815fa5f294bdbbcfe40314aa013d7180
      * @param array $config
      */
     protected static function validateConfig(array $config)
     {
+<<<<<<< HEAD
         $supportedOptions = static::getSupportedOptions();
         $unknowOptions    = array_keys(array_diff_key($config, array_flip($supportedOptions)));
         if ($unknowOptions) {
@@ -92,6 +138,12 @@ class ScriptHandler
             throw new \InvalidArgumentException(
                 'The extra.rolebi-dependencies-security-checker.error-on-vulnerabilities setting must be a boolean value.'
             );
+=======
+        if (!is_array($config['ignored-packages'])) {
+            throw new \InvalidArgumentException(
+                'The extra.rolebi-dependencies-security-checker.ignored-packages setting must be an array.'
+           );
+>>>>>>> c2bfa004815fa5f294bdbbcfe40314aa013d7180
         }
     }
 
@@ -99,6 +151,7 @@ class ScriptHandler
      * @param IOInterface $io
      * @param array       $vulnerabilities
      */
+<<<<<<< HEAD
     protected static function dumpVulnerabilities(IOInterface $io, array $vulnerabilities)
     {
         foreach ($vulnerabilities as $package => $infos) {
@@ -110,11 +163,25 @@ class ScriptHandler
                 }
                 if (isset($advisory['cve']) && $io->isVeryVerbose()) {
                     $io->write('    '.$advisory['cve']);
+=======
+    protected static function dumpVulnerabilities(IOInterface $io, $vulnerabilities)
+    {
+        foreach ($vulnerabilities as $package => $infos) {
+            $io->write("\n".'  <info>'.$package.'</info> '.$infos->version);
+            foreach ($infos->advisories as $key => $advisory) {
+                $io->write('    <comment>'.$advisory->title.'</comment>');
+                if ($advisory->link) {
+                    $io->write('    <info>'.$advisory->link.'</info>');
+                }
+                if (isset($advisory->cve) && $io->isVeryVerbose()) {
+                    $io->write('    '.$advisory->cve);
+>>>>>>> c2bfa004815fa5f294bdbbcfe40314aa013d7180
                 }
             }
         }
         $io->write("\n");
     }
+<<<<<<< HEAD
 
     /**
      * @param Event $event
@@ -154,4 +221,6 @@ class ScriptHandler
             }
         }
     }
+=======
+>>>>>>> c2bfa004815fa5f294bdbbcfe40314aa013d7180
 }

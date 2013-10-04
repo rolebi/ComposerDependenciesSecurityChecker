@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /composer.lock
 /phpunit.xml
 /composer.phar
@@ -7,3 +8,9 @@
 /.buildpath
 /.project
 
+=======
+composer.lock
+phpunit.xml
+vendor
+build
+>>>>>>> c2bfa004815fa5f294bdbbcfe40314aa013d7180
