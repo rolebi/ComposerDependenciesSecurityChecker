@@ -1,8 +1,5 @@
 [![Build Status](https://travis-ci.org/rolebi/ComposerDependenciesSecurityChecker.png)](https://travis-ci.org/rolebi/ComposerDependenciesSecurityChecker)
 
-README
-------
-
 What is Dependencies Security Checker for composer ?
 ---------------------------------------
 
