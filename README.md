@@ -35,11 +35,7 @@ Add those lines in your composer.json
 Configuration
 -------------
 
-<<<<<<< HEAD
 If you don't want to trigger an error when vulnerabilities are found, just add those lines in you composer.json:
-=======
-If you don't want to trigger an error when vulnerabilities are found, just add those lines in you composer.json
->>>>>>> c2bfa004815fa5f294bdbbcfe40314aa013d7180
 
 ```json
 "extra" : {
@@ -49,11 +45,7 @@ If you don't want to trigger an error when vulnerabilities are found, just add t
 }
 ```
 
-<<<<<<< HEAD
 If you want to ignore vulnerabilities for certain packages,  just add those lines in you composer.json:
-=======
-If you want to ignore vulnerabilities for certain package,  just add those lines in you composer.json
->>>>>>> c2bfa004815fa5f294bdbbcfe40314aa013d7180
 
 ```json
 "extra" : {
@@ -62,11 +54,8 @@ If you want to ignore vulnerabilities for certain package,  just add those lines
     }
 }
 ```
-<<<<<<< HEAD
 
 Run Tests
 ---------
 
 `php composer.phar install --dev; vendor/bin/phpunit`
-=======
->>>>>>> c2bfa004815fa5f294bdbbcfe40314aa013d7180
