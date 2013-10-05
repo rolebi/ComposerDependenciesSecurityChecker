@@ -1,11 +1,12 @@
 [![Build Status](https://travis-ci.org/rolebi/ComposerDependenciesSecurityChecker.png)](https://travis-ci.org/rolebi/ComposerDependenciesSecurityChecker)
 
-What is Dependencies Security Checker for composer ?
----------------------------------------
+What is Dependencies security checker for composer ?
+----------------------------------------------------
 
-It is a composer script that use sensio security checker API to check known vulnerabilities in your dependencies.
+A composer script that use Sensio Labs Security advisories checker API to check known vulnerabilities of your
+dependencies whenever you update and/or install them using composer.
 
-More informations about Sensio Labs Security Advisories Checker on https://security.sensiolabs.org/
+More informations about Sensio Labs Security advisories checker at https://security.sensiolabs.org/
 
 
 Installation
