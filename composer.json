@@ -1,6 +1,6 @@
 {
     "name": "rolebi/composer-dependencies-security-checker",
-    "description": "Composer script using sensio security checker API to check known vulnerabilities in your dependecies",
+    "description": "A composer script that use Sensio Labs Security advisories checker API to check known vulnerabilities of your dependencies whenever you update and/or install them using composer.",
     "keywords": ["composer", "security", "dependencies"],
     "homepage": "https://github.com/rolebi/ComposerDependenciesSecurityChecker",
     "license": "MIT",
