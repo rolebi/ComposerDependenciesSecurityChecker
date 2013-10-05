@@ -1,7 +1,7 @@
 <?php
 
 /*
-* This file is part of the rolebi/CompsoserDependenciesSecurityChecker.
+* This file is part of the rolebi/ComposerDependenciesSecurityChecker.
 *
 * (c) 2013 Ronan Le Bris
 *

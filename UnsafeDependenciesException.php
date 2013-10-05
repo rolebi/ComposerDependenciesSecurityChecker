@@ -12,7 +12,7 @@
 namespace Rolebi\ComposerDependenciesSecurityChecker;
 
 /**
- * @author Ronan Le Bris <ronan.le-bris@smile.fr>
+ * @author Ronan Le Bris <ronan.lebris.rolebi@gmail.com>
  */
 class UnsafeDependenciesException extends \RuntimeException
 {

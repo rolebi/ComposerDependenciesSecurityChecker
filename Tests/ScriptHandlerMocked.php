@@ -1,7 +1,7 @@
 <?php
 
 /*
-* This file is part of the rolebi/CompsoserDependenciesSecurityChecker.
+* This file is part of the rolebi/ComposerDependenciesSecurityChecker.
 *
 * (c) 2013 Ronan Le Bris
 *
@@ -15,7 +15,7 @@ use Rolebi\ComposerDependenciesSecurityChecker\ScriptHandler;
 use SensioLabs\Security\SecurityChecker;
 
 /**
- * @author Ronan Le Bris <ronan.le-bris@smile.fr>
+ * @author Ronan Le Bris <ronan.lebris.rolebi@gmail.com>
  */
 class ScriptHandlerMocked extends ScriptHandler
 {
