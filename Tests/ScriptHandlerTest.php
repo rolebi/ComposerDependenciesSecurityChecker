@@ -91,7 +91,6 @@ class ScriptHandlerTest extends \PHPUnit_Framework_TestCase
     protected function getIOMockForExpectedText(array $lines, $verbosity = self::OUTPUT_VERBOSE, $strictComparaison = false)
     {
         $io      = $this->getMock('Composer\IO\IOInterface');
-        $nbLInes = count($lines);
 
         $io
             ->expects($this->any())
