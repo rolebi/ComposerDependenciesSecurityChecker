@@ -1,28 +1,35 @@
 {
-    "name": "rolebi/composer-dependencies-security-checker",
-    "description": "A composer script that use Sensio Labs Security advisories checker API to check known vulnerabilities of your dependencies whenever you update and/or install them using composer.",
-    "keywords": ["composer", "security", "dependencies"],
-    "homepage": "https://github.com/rolebi/ComposerDependenciesSecurityChecker",
-    "license": "MIT",
     "authors": [{
-        "name": "Ronan Le Bris",
-        "email": "ronan.lebris.rolebi@gmail.com"
+        "email": "ronan.lebris.rolebi@gmail.com",
+        "name": "Ronan Le Bris"
     }],
+    "autoload": {
+        "psr-0": {
+            "Rolebi\\ComposerDependenciesSecurityChecker": ""
+        }
+    },
+    "description": "A composer script that use Sensio Labs Security advisories checker API to check known vulnerabilities of your dependencies whenever you update and/or install them using composer.",
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0.x-dev"
+        }
+    },
+    "homepage": "https://github.com/rolebi/ComposerDependenciesSecurityChecker",
+    "keywords": [
+        "composer",
+        "security",
+        "dependencies"
+    ],
+    "license": "MIT",
+    "minimum-stability": "dev",
+    "name": "rolebi/composer-dependencies-security-checker",
     "require": {
         "php": ">=5.3.3",
         "sensiolabs/security-checker": "1.3.*@dev"
     },
     "require-dev": {
-        "phpunit/phpunit":   "3.7.*",
-        "composer/composer": "1.0.*@dev"
+        "composer/composer": "1.0.*@dev",
+        "phpunit/phpunit": "3.7.*"
     },
-    "autoload": {
-        "psr-0": { "Rolebi\\ComposerDependenciesSecurityChecker": "" }
-    },
-    "target-dir": "Rolebi/ComposerDependenciesSecurityChecker",
-    "extra": {
-        "branch-alias": {
-            "dev-master": "1.0.x-dev"
-        }
-    }
+    "target-dir": "Rolebi/ComposerDependenciesSecurityChecker"
 }

@@ -90,8 +90,7 @@ class ScriptHandlerTest extends \PHPUnit_Framework_TestCase
      */
     protected function getIOMockForExpectedText(array $lines, $verbosity = self::OUTPUT_VERBOSE, $strictComparaison = false)
     {
-        $io      = $this->getMock('Composer\IO\IOInterface');
-
+        $io = $this->getMock('Composer\IO\IOInterface');
         $io
             ->expects($this->any())
             ->method('isVerbose')
@@ -374,5 +373,32 @@ class ScriptHandlerTest extends \PHPUnit_Framework_TestCase
                 ), self::OUTPUT_VERY_VERBOSE)
             )
         );
+    }
+
+    public function testProviderGivenData()
+    {
+        $checker = new SecurityChecker();
+        $vulnerabilities = json_decode($checker->check(__DIR__ . '/Data/composer.lock', 'json'), true);
+
+        $this->assertEquals(1, count($vulnerabilities));
+        $this->assertEquals('symfony/validator', key($vulnerabilities));
+
+        $vulnerability = array_shift($vulnerabilities);
+
+        $this->assertEquals('v2.0.16', $vulnerability['version']);
+
+        $this->assertEquals(2, count($vulnerability['advisories']));
+        $advisory = array_shift($vulnerability['advisories']);
+
+        $this->assertEquals($advisory['title'], 'Security fixes related to the way XML is handled');
+        $this->assertEquals($advisory['link'], 'http://symfony.com/blog/security-release-symfony-2-0-17-released');
+        $this->assertEquals('', $advisory['cve']);
+
+        $advisory = array_shift($vulnerability['advisories']);
+
+        $this->assertEquals($advisory['title'], 'Validation metadata serialization and loss of information');
+        $this->assertEquals($advisory['link'], 'http://symfony.com/blog/security-releases-symfony-2-0-24-2-1-12-2-2-5-and-2-3-3-released');
+        $this->assertEquals('CVE-2013-4751', $advisory['cve']);
+
     }
 }

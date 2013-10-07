@@ -105,10 +105,8 @@ class ScriptHandler
             $io->write("\n".'  <info>'.$package.'</info> '.$infos['version']);
             foreach ($infos['advisories'] as $key => $advisory) {
                 $io->write('    <comment>'.$advisory['title'].'</comment>');
-                if (isset($advisory['link'])) {
-                    $io->write('    <info>'.$advisory['link'].'</info>');
-                }
-                if (isset($advisory['cve']) && $io->isVeryVerbose()) {
+                $io->write('    <info>'.$advisory['link'].'</info>');
+                if ($advisory['cve'] && $io->isVeryVerbose()) {
                     $io->write('    '.$advisory['cve']);
                 }
             }
