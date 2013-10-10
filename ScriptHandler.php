@@ -74,11 +74,12 @@ class ScriptHandler
     {
         $supportedOptions = static::getSupportedOptions();
         $unknowOptions    = array_keys(array_diff_key($config, array_flip($supportedOptions)));
+
         if ($unknowOptions) {
             throw new \InvalidArgumentException(
-                'The extra.rolebi-dependencies-security-checker settings does not support option'.(count($unknowOptions) > 1 ? 's: ' : ': ')
+                'The extra.rolebi-dependencies-security-checker settings does not support option(s): '
                 .implode(' ', $unknowOptions)
-                .'. List of supported option'.(count($supportedOptions) > 1 ? 's: ' : ': ').implode(' ', $supportedOptions).'.'
+                .'. List of supported option(s): '.implode(' ', $supportedOptions).'.'
             );
         }
 
@@ -120,10 +121,13 @@ class ScriptHandler
     public static function checkForSecurityIssues(Event $event)
     {
         $extra  = $event->getComposer()->getPackage()->getExtra();
-        $config = isset($extra['rolebi-dependencies-security-checker']) ? $extra['rolebi-dependencies-security-checker'] : array();
+        $config = isset($extra['rolebi-dependencies-security-checker'])
+            ? $extra['rolebi-dependencies-security-checker'] : array();
 
         if (!is_array($config)) {
-            throw new \InvalidArgumentException('The extra.rolebi-dependencies-security-checker setting must be an array.');
+            throw new \InvalidArgumentException(
+                'The extra.rolebi-dependencies-security-checker setting must be an array.'
+            );
         }
 
         $config = static::processConfig($config);
@@ -142,12 +146,12 @@ class ScriptHandler
 
         $errorCount = count($vulnerabilities);
         if ($errorCount) {
-            $io->write("\n".'  <error>'.$errorCount.' vulnerabilit'.($errorCount > 1 ? 'ies' : 'y').' found!</error>');
+            $io->write("\n".'  <error>'.$errorCount.' vulnerability(ies) found!</error>');
 
             static::dumpVulnerabilities($io, $vulnerabilities);
 
             if ($config['error-on-vulnerabilities']) {
-                $exception = new UnsafeDependenciesException('Your dependencies contains known vulnerabilities.');
+                $exception = new UnsafeDependenciesException('At least one of your dependencies contains known vulnerability(ies)');
                 throw $exception->setVulnerabilities($vulnerabilities);
             }
         }

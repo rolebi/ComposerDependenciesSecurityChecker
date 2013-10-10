@@ -88,8 +88,11 @@ class ScriptHandlerTest extends \PHPUnit_Framework_TestCase
      *
      * @return IOInterface
      */
-    protected function getIOMockForExpectedText(array $lines, $verbosity = self::OUTPUT_VERBOSE, $strictComparaison = false)
-    {
+    protected function getIOMockForExpectedText(
+        array $lines,
+        $verbosity = self::OUTPUT_VERBOSE,
+        $strictComparaison = false
+    ) {
         $io = $this->getMock('Composer\IO\IOInterface');
         $io
             ->expects($this->any())
@@ -157,7 +160,10 @@ class ScriptHandlerTest extends \PHPUnit_Framework_TestCase
 
     public function testInvalidConfigRoot()
     {
-        $this->setExpectedException('InvalidArgumentException', 'The extra.rolebi-dependencies-security-checker setting must be an array.');
+        $this->setExpectedException(
+            'InvalidArgumentException',
+            'The extra.rolebi-dependencies-security-checker setting must be an array.'
+        );
 
         ScriptHandlerMocked::checkForSecurityIssues($this->getEventMockForConfig(array(
             'rolebi-dependencies-security-checker' => false)
@@ -166,7 +172,10 @@ class ScriptHandlerTest extends \PHPUnit_Framework_TestCase
 
     public function testInvalidIgnoredPackages()
     {
-        $this->setExpectedException('InvalidArgumentException', 'The extra.rolebi-dependencies-security-checker.ignored-packages setting must be an array.');
+        $this->setExpectedException(
+            'InvalidArgumentException',
+            'The extra.rolebi-dependencies-security-checker.ignored-packages setting must be an array.'
+        );
 
         ScriptHandlerMocked::checkForSecurityIssues($this->getEventMockForConfig(array(
             'rolebi-dependencies-security-checker' => array('ignored-packages' => false)
@@ -175,22 +184,13 @@ class ScriptHandlerTest extends \PHPUnit_Framework_TestCase
 
     public function testInvalidErrorOnVulnerabilities()
     {
-        $this->setExpectedException('InvalidArgumentException', 'The extra.rolebi-dependencies-security-checker.error-on-vulnerabilities setting must be a boolean value.');
-
-        ScriptHandlerMocked::checkForSecurityIssues($this->getEventMockForConfig(array(
-            'rolebi-dependencies-security-checker' => array('error-on-vulnerabilities' => array())
-        )));
-    }
-
-    public function testUnknowOption()
-    {
         $this->setExpectedException(
             'InvalidArgumentException',
-            'The extra.rolebi-dependencies-security-checker settings does not support option: foo. List of supported options: error-on-vulnerabilities ignored-packages.'
+            'The extra.rolebi-dependencies-security-checker.error-on-vulnerabilities setting must be a boolean value.'
         );
 
         ScriptHandlerMocked::checkForSecurityIssues($this->getEventMockForConfig(array(
-            'rolebi-dependencies-security-checker' => array('foo' => 'bar')
+            'rolebi-dependencies-security-checker' => array('error-on-vulnerabilities' => array())
         )));
     }
 
@@ -198,7 +198,8 @@ class ScriptHandlerTest extends \PHPUnit_Framework_TestCase
     {
         $this->setExpectedException(
             'InvalidArgumentException',
-            'The extra.rolebi-dependencies-security-checker settings does not support options: foo cari. List of supported options: error-on-vulnerabilities ignored-packages.'
+            'The extra.rolebi-dependencies-security-checker settings does not support option(s): foo cari. '
+            .'List of supported option(s): error-on-vulnerabilities ignored-packages.'
         );
 
         ScriptHandlerMocked::checkForSecurityIssues($this->getEventMockForConfig(array(
@@ -220,7 +221,7 @@ class ScriptHandlerTest extends \PHPUnit_Framework_TestCase
 
         $this->setExpectedException(
             'Rolebi\ComposerDependenciesSecurityChecker\UnsafeDependenciesException',
-            'Your dependencies contains known vulnerabilities.'
+            'At least one of your dependencies contains known vulnerability(ies)'
         );
 
         ScriptHandlerMocked::checkForSecurityIssues($this->getEventMockForConfig(array(
@@ -248,7 +249,7 @@ class ScriptHandlerTest extends \PHPUnit_Framework_TestCase
             return;
         }
 
-        $this->fail('Expecting UnsafeDependenciesException Exception.');
+        $this->fail('Expecting UnsafeDependenciesException exception but none was thrown');
     }
 
     public function testIgnoredPackagesOption()
@@ -267,7 +268,7 @@ class ScriptHandlerTest extends \PHPUnit_Framework_TestCase
 
         $this->setExpectedException(
             'Rolebi\ComposerDependenciesSecurityChecker\UnsafeDependenciesException',
-            'Your dependencies contains known vulnerabilities.'
+            'At least one of your dependencies contains known vulnerability(ies)'
         );
 
         ScriptHandlerMocked::checkForSecurityIssues($this->getEventMockForConfig(array(
@@ -323,7 +324,7 @@ class ScriptHandlerTest extends \PHPUnit_Framework_TestCase
                     0 =>  'Checking your dependencies for known vulnerabilities using your composer.lock',
                     1 =>  'This checker can only detect vulnerabilities that are referenced in the SensioLabs '
                         .'security advisories database.',
-                    2 =>  '2 vulnerabilities found!',
+                    2 =>  '2 vulnerability(ies) found!',
                     3 =>  '  test-package1 test-version',
                     4 =>  '    test-title',
                     5 =>  '    test-link',
@@ -360,7 +361,7 @@ class ScriptHandlerTest extends \PHPUnit_Framework_TestCase
                     0 =>  'Checking your dependencies for known vulnerabilities using your composer.lock',
                     1 =>  'This checker can only detect vulnerabilities that are referenced in the SensioLabs '
                         .'security advisories database.',
-                    2 =>  '2 vulnerabilities found!',
+                    2 =>  '2 vulnerability(ies) found!',
                     3 =>  '  test-package1 test-version',
                     4 =>  '    test-title',
                     5 =>  '    test-link',
@@ -397,7 +398,10 @@ class ScriptHandlerTest extends \PHPUnit_Framework_TestCase
         $advisory = array_shift($vulnerability['advisories']);
 
         $this->assertEquals($advisory['title'], 'Validation metadata serialization and loss of information');
-        $this->assertEquals($advisory['link'], 'http://symfony.com/blog/security-releases-symfony-2-0-24-2-1-12-2-2-5-and-2-3-3-released');
+        $this->assertEquals(
+            $advisory['link'],
+            'http://symfony.com/blog/security-releases-symfony-2-0-24-2-1-12-2-2-5-and-2-3-3-released'
+        );
         $this->assertEquals('CVE-2013-4751', $advisory['cve']);
 
     }
