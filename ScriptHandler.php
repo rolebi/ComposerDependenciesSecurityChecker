@@ -151,7 +151,9 @@ class ScriptHandler
             static::dumpVulnerabilities($io, $vulnerabilities);
 
             if ($config['error-on-vulnerabilities']) {
-                $exception = new UnsafeDependenciesException('At least one of your dependencies contains known vulnerability(ies)');
+                $exception = new UnsafeDependenciesException(
+                    'At least one of your dependencies contains known vulnerability(ies)'
+                );
                 throw $exception->setVulnerabilities($vulnerabilities);
             }
         }
