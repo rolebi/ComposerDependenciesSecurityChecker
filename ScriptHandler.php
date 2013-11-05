@@ -91,7 +91,8 @@ class ScriptHandler
 
         if (!is_bool($config['error-on-vulnerabilities'])) {
             throw new \InvalidArgumentException(
-                'The extra.rolebi-dependencies-security-checker.error-on-vulnerabilities setting must be a boolean value.'
+                'The extra.rolebi-dependencies-security-checker.error-on-vulnerabilities '
+                .'setting must be a boolean value.'
             );
         }
     }
@@ -135,11 +136,16 @@ class ScriptHandler
         $io = $event->getIO();
 
         $io->write("\n".'<info>Checking your dependencies for known vulnerabilities using your composer.lock</info>');
-        $io->write('<comment>This checker can only detect vulnerabilities that are referenced in the SensioLabs '
-            .'security advisories database.</comment>'."\n");
+        $io->write(
+            '<comment>This checker can only detect vulnerabilities that are referenced in the SensioLabs '
+            .'security advisories database.</comment>'."\n"
+        );
 
         $vulnerabilities = json_decode(
-            static::getSecurityChecker()->check(static::getComposerFile(), 'json'),
+            static::getSecurityChecker()->check(
+                static::getComposerFile(),
+                'json'
+            ),
             true // working with associative array
         );
         $vulnerabilities = array_diff_key($vulnerabilities, $config['ignored-packages']);
