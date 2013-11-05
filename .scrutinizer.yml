@@ -15,7 +15,8 @@ tools:
         config:
             standard: PSR2
             
-    php_code_coverage: true
+    php_code_coverage:
+        excluded_dirs: [Tests]
 
 before_commands:
     - "composer install --prefer-source --dev"
