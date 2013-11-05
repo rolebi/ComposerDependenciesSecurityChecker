@@ -165,9 +165,9 @@ class ScriptHandlerTest extends \PHPUnit_Framework_TestCase
             'The extra.rolebi-dependencies-security-checker setting must be an array.'
         );
 
-        ScriptHandlerMocked::checkForSecurityIssues($this->getEventMockForConfig(array(
-            'rolebi-dependencies-security-checker' => false)
-        ));
+        ScriptHandlerMocked::checkForSecurityIssues(
+            $this->getEventMockForConfig(array('rolebi-dependencies-security-checker' => false))
+        );
     }
 
     public function testInvalidIgnoredPackages()
@@ -306,7 +306,8 @@ class ScriptHandlerTest extends \PHPUnit_Framework_TestCase
         ScriptHandlerMocked::setComposerFile($composerFile);
         ScriptHandlerMocked::setSecurityChecker(
             $this->getCheckerMockForFileAndData(
-                $composerFile, array(
+                $composerFile,
+                array(
                     'test-package1' => $this->getVulnerabilityData(),
                     'test-package2' => $this->getVulnerabilityData()
                 )
@@ -343,7 +344,8 @@ class ScriptHandlerTest extends \PHPUnit_Framework_TestCase
         ScriptHandlerMocked::setComposerFile($composerFile);
         ScriptHandlerMocked::setSecurityChecker(
             $this->getCheckerMockForFileAndData(
-                $composerFile, array(
+                $composerFile,
+                array(
                     'test-package1' => $this->getVulnerabilityData(),
                     'test-package2' => $this->getVulnerabilityData()
                 )
