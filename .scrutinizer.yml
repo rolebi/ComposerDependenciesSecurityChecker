@@ -16,7 +16,11 @@ tools:
             standard: PSR2
             
     php_code_coverage:
-        excluded_dirs: [Tests]
+        filter:
+            excluded_paths: [Tests/*]
+        
+    php_analyzer: true
+
 
 before_commands:
     - "composer install --prefer-source --dev"
