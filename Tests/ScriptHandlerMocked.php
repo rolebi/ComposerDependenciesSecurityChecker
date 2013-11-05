@@ -36,7 +36,8 @@ class ScriptHandlerMocked extends ScriptHandler
     {
         if (!static::$securityChecker) {
             throw new \RuntimeException(
-                'Please set a security checker using ScriptHandlerMocked::setSecurityChecker() before using ScriptHandlerMocked::getSecurityChecker()'
+                'Please set a security checker using ScriptHandlerMocked::setSecurityChecker() before using'
+                .'ScriptHandlerMocked::getSecurityChecker()'
             );
         }
 
@@ -50,7 +51,8 @@ class ScriptHandlerMocked extends ScriptHandler
     {
         if (!static::$composerFile) {
             throw new \RuntimeException(
-                'Please set a composerFile using ScriptHandlerMocked::setComposerFile() before using ScriptHandlerMocked::getComposerFile()'
+                'Please set a composerFile using ScriptHandlerMocked::setComposerFile() before using '
+                .'ScriptHandlerMocked::getComposerFile()'
             );
         }
 
