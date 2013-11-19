@@ -15,6 +15,8 @@ use Composer\IO\IOInterface;
 use Composer\Script\Event;
 use Composer\Factory;
 use SensioLabs\Security\SecurityChecker;
+use Rolebi\ComposerDependenciesSecurityChecker\Exception\UnsafeDependenciesException;
+use Rolebi\ComposerDependenciesSecurityChecker\Exception\ServiceUnavailableException;
 
 /**
  * @author Ronan Le Bris <ronan.lebris.rolebi@gmail.com>
@@ -35,66 +37,6 @@ class ScriptHandler
     protected static function getComposerFile()
     {
         return Factory::getComposerFile();
-    }
-
-    /**
-     * @param array $config
-     *
-     * @return array
-     */
-    protected static function processConfig(array $config)
-    {
-        if (!isset($config['error-on-vulnerabilities'])) {
-            $config['error-on-vulnerabilities'] = true;
-        }
-
-        if (!isset($config['ignored-packages'])) {
-            $config['ignored-packages'] = array();
-        }
-
-        static::validateConfig($config);
-
-        $config['ignored-packages'] = array_flip($config['ignored-packages']);
-
-        return $config;
-    }
-
-    /**
-     * @return string[]
-     */
-    protected static function getSupportedOptions()
-    {
-        return array('error-on-vulnerabilities', 'ignored-packages');
-    }
-
-    /**
-     * @param array $config
-     */
-    protected static function validateConfig(array $config)
-    {
-        $supportedOptions = static::getSupportedOptions();
-        $unknowOptions    = array_keys(array_diff_key($config, array_flip($supportedOptions)));
-
-        if ($unknowOptions) {
-            throw new \InvalidArgumentException(
-                'The extra.rolebi-dependencies-security-checker settings does not support option(s): '
-                .implode(' ', $unknowOptions)
-                .'. List of supported option(s): '.implode(' ', $supportedOptions).'.'
-            );
-        }
-
-        if (!is_array($config['ignored-packages'])) {
-            throw new \InvalidArgumentException(
-                'The extra.rolebi-dependencies-security-checker.ignored-packages setting must be an array.'
-            );
-        }
-
-        if (!is_bool($config['error-on-vulnerabilities'])) {
-            throw new \InvalidArgumentException(
-                'The extra.rolebi-dependencies-security-checker.error-on-vulnerabilities '
-                .'setting must be a boolean value.'
-            );
-        }
     }
 
     /**
@@ -131,7 +73,7 @@ class ScriptHandler
             );
         }
 
-        $config = static::processConfig($config);
+        $config = ConfigHandler::processConfig($config);
 
         $io = $event->getIO();
 
@@ -141,14 +83,17 @@ class ScriptHandler
             .'security advisories database.</comment>'."\n"
         );
 
-        $vulnerabilities = json_decode(
-            static::getSecurityChecker()->check(
-                static::getComposerFile(),
-                'json'
-            ),
-            true // working with associative array
-        );
-        $vulnerabilities = array_diff_key($vulnerabilities, $config['ignored-packages']);
+        try {
+            $vulnerabilities = static::getVulnerabilities(static::getComposerFile(), $config['ignored-packages']);
+        } catch (ServiceUnavailableException $exception) {
+            if ($config['error-on-service-unavailable']) {
+                throw $exception;
+            } else {
+                $io->write("\n".'  <error>'.$exception->getMessage().'</error>');
+
+                return;
+            }
+        }
 
         $errorCount = count($vulnerabilities);
         if ($errorCount) {
@@ -163,5 +108,31 @@ class ScriptHandler
                 throw $exception->setVulnerabilities($vulnerabilities);
             }
         }
+    }
+
+    /**
+     * Get vulnerabilities for composer field.
+     *
+     * @param array $ignoredPackages A list of ignored packages
+     *
+     * @return array The vulnerabilities map
+     */
+    protected static function getVulnerabilities($file, array $ignoredPackages = array())
+    {
+        try {
+            $json = static::getSecurityChecker()->check($file, 'json');
+        } catch (\RuntimeException $exception) {
+            if (false !== strpos('couldn\'t connect to host', $exception->getMessage())) { // Ewww
+                throw new ServiceUnavailableException(
+                    'SensioLabs security advisories database api is not reachable.',
+                    null,
+                    $exception
+                );
+            }
+        }
+
+        $vulnerabilities = json_decode($json, true); // working with associative array
+
+        return array_diff_key($vulnerabilities, $ignoredPackages);
     }
 }

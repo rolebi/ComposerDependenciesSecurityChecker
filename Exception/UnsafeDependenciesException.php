@@ -9,7 +9,7 @@
 * file that was distributed with this source code.
 */
 
-namespace Rolebi\ComposerDependenciesSecurityChecker;
+namespace Rolebi\ComposerDependenciesSecurityChecker\Exception;
 
 /**
  * @author Ronan Le Bris <ronan.lebris.rolebi@gmail.com>

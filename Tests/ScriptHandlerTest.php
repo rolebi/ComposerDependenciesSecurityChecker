@@ -15,7 +15,7 @@ use Composer\IO\IOInterface;
 use Composer\Script\Event;
 use Composer\IO\NullIO;
 use SensioLabs\Security\SecurityChecker;
-use Rolebi\ComposerDependenciesSecurityChecker\UnsafeDependenciesException;
+use Rolebi\ComposerDependenciesSecurityChecker\Exception\UnsafeDependenciesException;
 
 /**
  * @author Ronan Le Bris <ronan.lebris.rolebi@gmail.com>
@@ -170,43 +170,6 @@ class ScriptHandlerTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    public function testInvalidIgnoredPackages()
-    {
-        $this->setExpectedException(
-            'InvalidArgumentException',
-            'The extra.rolebi-dependencies-security-checker.ignored-packages setting must be an array.'
-        );
-
-        ScriptHandlerMocked::checkForSecurityIssues($this->getEventMockForConfig(array(
-            'rolebi-dependencies-security-checker' => array('ignored-packages' => false)
-        )));
-    }
-
-    public function testInvalidErrorOnVulnerabilities()
-    {
-        $this->setExpectedException(
-            'InvalidArgumentException',
-            'The extra.rolebi-dependencies-security-checker.error-on-vulnerabilities setting must be a boolean value.'
-        );
-
-        ScriptHandlerMocked::checkForSecurityIssues($this->getEventMockForConfig(array(
-            'rolebi-dependencies-security-checker' => array('error-on-vulnerabilities' => array())
-        )));
-    }
-
-    public function testUnknowOptions()
-    {
-        $this->setExpectedException(
-            'InvalidArgumentException',
-            'The extra.rolebi-dependencies-security-checker settings does not support option(s): foo cari. '
-            .'List of supported option(s): error-on-vulnerabilities ignored-packages.'
-        );
-
-        ScriptHandlerMocked::checkForSecurityIssues($this->getEventMockForConfig(array(
-            'rolebi-dependencies-security-checker' => array('foo' => 'bar', 'cari' => 'smatic')
-        )));
-    }
-
     public function testErrorOnVulnerabilitiesOption()
     {
         $composerFile = 'composer_lock';
@@ -220,7 +183,7 @@ class ScriptHandlerTest extends \PHPUnit_Framework_TestCase
         )));
 
         $this->setExpectedException(
-            'Rolebi\ComposerDependenciesSecurityChecker\UnsafeDependenciesException',
+            'Rolebi\ComposerDependenciesSecurityChecker\Exception\UnsafeDependenciesException',
             'At least one of your dependencies contains known vulnerability(ies)'
         );
 
@@ -267,7 +230,7 @@ class ScriptHandlerTest extends \PHPUnit_Framework_TestCase
         )));
 
         $this->setExpectedException(
-            'Rolebi\ComposerDependenciesSecurityChecker\UnsafeDependenciesException',
+            'Rolebi\ComposerDependenciesSecurityChecker\Exception\UnsafeDependenciesException',
             'At least one of your dependencies contains known vulnerability(ies)'
         );
 
@@ -406,5 +369,58 @@ class ScriptHandlerTest extends \PHPUnit_Framework_TestCase
         );
         $this->assertEquals('CVE-2013-4751', $advisory['cve']);
 
+    }
+
+    public function testServiceUnavailable()
+    {
+        $checker = $this->getMock('SensioLabs\Security\SecurityChecker');
+        $checker
+            ->expects($this->any())
+            ->method('check')
+            ->with($this->equalTo('composer_lock'), $this->equalTo('json'))
+            ->will($this->throwException(new \RuntimeException('couldn\'t connect to host')))
+        ;
+
+        ScriptHandlerMocked::setSecurityChecker($checker);
+
+        $this->setExpectedException(
+            'Rolebi\\ComposerDependenciesSecurityChecker\\Exception\\ServiceUnavailableException',
+            'SensioLabs security advisories database api is not reachable.'
+        );
+
+        ScriptHandlerMocked::checkForSecurityIssues(
+            $this->getEventMockForConfig(
+                array(
+                    'rolebi-dependencies-security-checker' => array('error-on-service-unavailable' => true)
+                )
+            )
+        );
+    }
+
+    public function testServiceUnavailableWithNoError()
+    {
+        $checker = $this->getMock('SensioLabs\Security\SecurityChecker');
+        $checker
+            ->expects($this->any())
+            ->method('check')
+            ->with($this->equalTo('composer_lock'), $this->equalTo('json'))
+            ->will($this->throwException(new \RuntimeException('couldn\'t connect to host')))
+        ;
+
+        ScriptHandlerMocked::setSecurityChecker($checker);
+
+        ScriptHandlerMocked::checkForSecurityIssues(
+            $this->getEventMockForConfig(
+                array(
+                    'rolebi-dependencies-security-checker' => array('error-on-service-unavailable' => false)
+                ),
+                $this->getIOMockForExpectedText(array(
+                    'Checking your dependencies for known vulnerabilities using your composer.lock',
+                    'This checker can only detect vulnerabilities that are referenced in the SensioLabs '
+                    .'security advisories database.',
+                    'SensioLabs security advisories database api is not reachable.'
+                ))
+            )
+        );
     }
 }
