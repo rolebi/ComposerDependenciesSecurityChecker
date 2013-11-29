@@ -129,6 +129,8 @@ class ScriptHandler
                     $exception
                 );
             }
+
+            throw $exception;
         }
 
         $vulnerabilities = json_decode($json, true); // working with associative array
