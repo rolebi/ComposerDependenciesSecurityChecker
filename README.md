@@ -2,6 +2,8 @@
 [![Code Coverage](https://scrutinizer-ci.com/g/rolebi/ComposerDependenciesSecurityChecker/badges/coverage.png?s=24c9c4ce51b20b811c127044ed2a129497f72b70)](https://scrutinizer-ci.com/g/rolebi/ComposerDependenciesSecurityChecker/)
 [![Scrutinizer Quality Score](https://scrutinizer-ci.com/g/rolebi/ComposerDependenciesSecurityChecker/badges/quality-score.png?s=e77598d165e4ee57ebbfe3384cf2a31b26309fe2)](https://scrutinizer-ci.com/g/rolebi/ComposerDependenciesSecurityChecker/)
 
+!!! DEPRECATED in favor of https://github.com/sensiolabs/security-checker !!!
+
 What is Dependencies security checker for composer ?
 ----------------------------------------------------
 
